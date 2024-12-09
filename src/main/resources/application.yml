@@ -1,0 +1,72 @@
+spring:
+  application:
+    name: kotlin-demo
+
+  cache:
+    type: jcache
+    jcache:
+      provider: org.ehcache.jsr107.EhcacheCachingProvider
+    cache-names:
+      - TaskList
+      - TaskListDetails
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${APP_JDBC_URL:jdbc:postgresql://${APP_DB_HOST:127.0.0.1}:${APP_DB_PORT:5432}/${APP_DB_DATABASE:demo}?currentSchema=${APP_DB_SCHEMA:demo}}
+    username: ${APP_DB_USERNAME:demo}
+    password: ${APP_DB_PASSWORD:demo}
+    hikari:
+      auto-commit: false
+      minimum-idle: 0
+      maximum-pool-size: 4
+      data-source-properties:
+        reWriteBatchedInserts: true
+        stringtype: unspecified
+
+  flyway:
+    enabled: true
+    user: ${APP_FLYWAY_USER:${APP_DB_USERNAME:demo}}
+    password: ${APP_FLYWAY_PASSWORD:${APP_DB_PASSWORD:demo}}
+    locations:
+      - classpath:db/migration
+    default-schema: ${APP_DB_SCHEMA:demo}
+    schemas: ${APP_DB_SCHEMA:demo}
+    url: ${APP_FLYWAY_JDBC_URL:${APP_JDBC_URL:jdbc:postgresql://${APP_DB_HOST:127.0.0.1}:${APP_DB_PORT:5432}/${APP_DB_DATABASE:demo}?currentSchema=${APP_DB_SCHEMA:demo}}}
+
+  r2dbc:
+    url: ${APP_R2DBC_URL:r2dbc:postgresql://${APP_DB_HOST:127.0.0.1}:${APP_DB_PORT:5432}/${APP_DB_DATABASE:demo}}
+    username: ${APP_DB_USERNAME:demo}
+    password: ${APP_DB_PASSWORD:demo}
+    pool:
+      enabled: true
+      initial-size: 1
+      max-size: 8
+      validation-depth: remote
+    properties:
+      schema: ${APP_DB_SCHEMA:demo}
+
+management:
+  health:
+    readinessstate.enabled: true
+    livenessstate.enabled: true
+  endpoint:
+    auditevents.access: none
+    health:
+      access: read_only
+      probes.enabled: true
+      show-components: always
+      show-details: always
+
+server:
+  error:
+    include-binding-errors: always
+    include-stacktrace: never
+    include-exception: false
+    include-message: always
+
+logging:
+  level:
+    ROOT: debug
+    com.humaninterest: debug
+    com.zaxxer: warn
+    org.flywaydb: warn

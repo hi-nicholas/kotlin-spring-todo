@@ -1,0 +1,2 @@
+com.humaninterest.kotlindemo.autoconfigure.CacheAutoConfiguration
+com.humaninterest.kotlindemo.autoconfigure.ValidatorFactoryHelperAutoConfiguration
