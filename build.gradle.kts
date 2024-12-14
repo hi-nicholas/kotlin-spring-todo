@@ -35,6 +35,7 @@ dependencies {
     implementation("org.ehcache:ehcache::jakarta")
     implementation("org.postgresql:postgresql")
     implementation("org.postgresql:r2dbc-postgresql")
+    implementation("org.apache.commons:commons-compress:1.27.1")
     implementation("io.github.oshai:kotlin-logging-jvm:7.0.3")
     implementation("ch.qos.logback:logback-classic:1.5.12")
     implementation("net.logstash.logback:logstash-logback-encoder:8.0")
