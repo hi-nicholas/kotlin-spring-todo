@@ -10,6 +10,7 @@ import com.humaninterest.kotlindemo.data.model.JournalEntry
 import com.humaninterest.kotlindemo.data.model.LedgerAccount
 import com.humaninterest.kotlindemo.data.model.LedgerAccountBalance
 import com.humaninterest.kotlindemo.data.repository.JournalEntryRepository
+import io.github.oshai.kotlinlogging.KotlinLogging
 import io.r2dbc.postgresql.codec.Json
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -33,6 +34,8 @@ class JournalEntryServiceImpl(
     private val balanceService: BalanceService,
     private val journalEntryRepository: JournalEntryRepository,
 ) : JournalEntryService {
+    private val logger = KotlinLogging.logger {}
+
     override suspend fun save(request: PostJournalEntryRequest): PostedJournalEntryResponse {
         val scaledAmount = request.amount.scaleToLong()
         val debitBalance =
@@ -126,9 +129,13 @@ class JournalEntryServiceImpl(
                     }
                     block()
                 } catch (e: OptimisticLockingFailureException) {
+                    logger.info(e) { "OptimisticLockingFailureException on account balance" }
                     tx.setRollbackOnly()
                     throw e
                 } catch (t: Throwable) {
+                    logger.error(t) {
+                        "Error persisting account balances and journal entry."
+                    }
                     tx.setRollbackOnly()
                     throw t
                 }

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+    <springProfile name="datadog">
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+                <includeCallerData>true</includeCallerData>
+                <fieldNames>
+                    <version>[ignore]</version>
+                    <callerClass>class_name</callerClass>
+                    <callerMethod>method_name</callerMethod>
+                    <callerFile>[ignore]</callerFile>
+                    <callerLine>line_num</callerLine>
+                </fieldNames>
+                <throwableConverter class="net.logstash.logback.stacktrace.ShortenedThrowableConverter">
+                    <maxDepthPerThrowable>30</maxDepthPerThrowable>
+                    <maxLength>2048</maxLength>
+                    <exclude>sun\.reflect\..*\.invoke.*</exclude>
+                    <exclude>net\.sf\.cglib\.proxy\.MethodProxy\.invoice</exclude>
+                    <exclude>kotlin\.coroutines\.jvm\.internal.*</exclude>
+                    <exclude>kotlin\.coroutines\.jvm\.Dispatched.*</exclude>
+                    <exclude>org\.springframework\.aop\.Cglib.*</exclude>
+                    <exclude>org\.springframework\.aop\.cglib.*</exclude>
+                </throwableConverter>
+                <includeMdcKeyName>accountId</includeMdcKeyName>
+                <includeMdcKeyName>participantId</includeMdcKeyName>
+                <includeMdcKeyName>partyId</includeMdcKeyName>
+                <includeMdcKeyName>planId</includeMdcKeyName>
+                <includeMdcKeyName>traceId</includeMdcKeyName>
+            </encoder>
+        </appender>
+    </springProfile>
+    <springProfile name="!datadog">
+        <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
+    </springProfile>
+    <root level="${logging.level.ROOT:info}">
+        <appender-ref ref="CONSOLE" />
+    </root>
+</configuration>
