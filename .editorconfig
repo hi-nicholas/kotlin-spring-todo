@@ -1,0 +1,27 @@
+root = true
+
+[*]
+charset = utf-8
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.{yml,yaml}]
+indent_size = 2
+
+# noinspection EditorConfigKeyCorrectness
+[*.{kt,kts}]
+ktlint_code_style = intellij_idea
+indent_size = 4
+indent_style = space
+ij_kotlin_name_count_to_use_star_import = 214783647
+ij_kotlin_name_count_to_use_star_import_for_members = 214783647
+ij_kotlin_packages_to_use_import_on_demand = unset
+max_line_length = 180
+
+# noinspection EditorConfigKeyCorrectness
+[**/src/test/**/*.{kt,kts}]
+ktlint = disabled
+
+# noinspection EditorConfigKeyCorrectness
+[**/{build,setings}.gradle.kts]
+ktlint = disabled

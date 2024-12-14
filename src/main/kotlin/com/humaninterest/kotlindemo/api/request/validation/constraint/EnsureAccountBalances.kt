@@ -1,12 +1,11 @@
 package com.humaninterest.kotlindemo.api.request.validation.constraint
 
-import com.humaninterest.kotlindemo.api.request.validation.validator.UniqueListNameConstraintValidator
+import com.humaninterest.kotlindemo.api.request.validation.validator.EnsureAccountBalancesConstraintValidator
 import jakarta.validation.Constraint
 import kotlin.reflect.KClass
 
 /**
- * JSR validation constraint annotation that ensures all task list names are unique when
- * validating the request.
+ * JSR validation constraint annotation that ensures account balances support the requested amount.
  */
 @Target(
     AnnotationTarget.FIELD,
@@ -16,10 +15,10 @@ import kotlin.reflect.KClass
     AnnotationTarget.CLASS,
 )
 @Retention(AnnotationRetention.RUNTIME)
-@Constraint(validatedBy = [UniqueListNameConstraintValidator::class])
-annotation class UniqueListName(
+@Constraint(validatedBy = [EnsureAccountBalancesConstraintValidator::class])
+annotation class EnsureAccountBalances(
     // This message is automatically interpolated from messages.properties.
-    val message: String = "{com.humaninterest.unique}",
+    val message: String = "{com.humaninterest.insufficientBalance}",
     val groups: Array<KClass<*>> = [],
     val payload: Array<KClass<*>> = [],
 )

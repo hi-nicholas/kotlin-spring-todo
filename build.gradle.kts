@@ -33,8 +33,8 @@ dependencies {
     implementation("org.springframework:spring-jdbc")
     implementation("javax.cache:cache-api")
     implementation("org.ehcache:ehcache::jakarta")
-    runtimeOnly("org.postgresql:postgresql")
-    runtimeOnly("org.postgresql:r2dbc-postgresql")
+    implementation("org.postgresql:postgresql")
+    implementation("org.postgresql:r2dbc-postgresql")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
@@ -62,7 +62,8 @@ detekt {
     source.setFrom("src/main/kotlin")
     parallel = true
     config.setFrom("config/detekt/detekt.yml")
-    buildUponDefaultConfig = true
+    buildUponDefaultConfig = false
+    autoCorrect = true
 }
 
 tasks.withType<Detekt>().configureEach {

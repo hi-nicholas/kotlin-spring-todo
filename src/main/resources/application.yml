@@ -7,8 +7,9 @@ spring:
     jcache:
       provider: org.ehcache.jsr107.EhcacheCachingProvider
     cache-names:
-      - TaskList
-      - TaskListDetails
+      - LedgerAccount
+      - LedgerAccountBalance
+      - Party
 
   datasource:
     driver-class-name: org.postgresql.Driver
