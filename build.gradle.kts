@@ -17,6 +17,9 @@ version = "0.0.1-SNAPSHOT"
 repositories {
     mavenCentral()
 }
+configurations.all {
+    resolutionStrategy.force("org.apache.commons:commons-compress:1.27.1")
+}
 
 dependencies {
     implementation(platform(SpringBootPlugin.BOM_COORDINATES))
