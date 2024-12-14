@@ -1,3 +1,4 @@
+
 import io.gitlab.arturbosch.detekt.Detekt
 import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
@@ -35,11 +36,15 @@ dependencies {
     implementation("org.ehcache:ehcache::jakarta")
     implementation("org.postgresql:postgresql")
     implementation("org.postgresql:r2dbc-postgresql")
+    implementation("org.apache.kafka:kafka-clients")
+    implementation("org.springframework.kafka:spring-kafka")
     implementation("org.apache.commons:commons-compress:1.27.1")
     implementation("io.github.oshai:kotlin-logging-jvm:7.0.3")
     implementation("ch.qos.logback:logback-classic:1.5.12")
     implementation("net.logstash.logback:logstash-logback-encoder:8.0")
     implementation("org.slf4j:slf4j-api:2.0.16")
+    implementation("com.zaxxer:HikariCP:6.2.1")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")

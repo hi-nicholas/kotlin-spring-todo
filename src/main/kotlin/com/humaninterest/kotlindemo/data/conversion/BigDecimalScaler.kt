@@ -2,15 +2,17 @@ package com.humaninterest.kotlindemo.data.conversion
 
 import java.math.BigDecimal
 
-@Suppress("MagicNumber")
+/**
+ * Utility/helper to scale/unscale BigDecimal and Long.
+ */
 object BigDecimalScaler {
     fun scale(value: BigDecimal): Long {
-        return value.scaleByPowerOfTen(8).longValueExact()
+        return value.scaleByPowerOfTen(SCALE_POWER).longValueExact()
     }
 
     fun unscale(value: Long): BigDecimal {
         return if (value != 0L) {
-            BigDecimal.valueOf(value).scaleByPowerOfTen(-8).let { b ->
+            BigDecimal.valueOf(value).scaleByPowerOfTen(UNSCALE_POWER).let { b ->
                 if (b.compareTo(BigDecimal.ZERO) == 0) {
                     BigDecimal.ZERO
                 } else {
@@ -29,4 +31,7 @@ object BigDecimalScaler {
     fun Long.unscaleToBigDecimal(): BigDecimal {
         return unscale(this)
     }
+
+    const val SCALE_POWER = 8
+    const val UNSCALE_POWER = -8
 }

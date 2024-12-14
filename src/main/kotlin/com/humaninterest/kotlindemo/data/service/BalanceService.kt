@@ -1,8 +1,12 @@
 package com.humaninterest.kotlindemo.data.service
 
+import com.humaninterest.kotlindemo.api.response.AccountBalanceAnalyticsDTO
 import com.humaninterest.kotlindemo.data.conversion.BigDecimalScaler.scaleToLong
+import com.humaninterest.kotlindemo.data.conversion.BigDecimalScaler.unscaleToBigDecimal
+import com.humaninterest.kotlindemo.data.conversion.toArrayList
 import com.humaninterest.kotlindemo.data.model.LedgerAccountBalance
 import com.humaninterest.kotlindemo.data.repository.LedgerAccountBalanceRepository
+import com.humaninterest.kotlindemo.data.repository.analytics.BalanceAnalyticsRepository
 import kotlinx.coroutines.runBlocking
 import org.springframework.cache.CacheManager
 import org.springframework.stereotype.Service
@@ -20,14 +24,30 @@ interface BalanceService {
     suspend fun save(balance: LedgerAccountBalance): LedgerAccountBalance
 
     fun evictAll(balances: Collection<LedgerAccountBalance>)
+
+    suspend fun getDetailsByAccountIdForDate(accountId: UUID, date: LocalDate): AccountBalanceAnalyticsDTO
 }
 
 @Service
 class BalanceServiceImpl(
     private val balanceRepository: LedgerAccountBalanceRepository,
+    private val balanceAnalyticsRepository: BalanceAnalyticsRepository,
     cacheManager: CacheManager,
 ) : BalanceService {
     private val cache = cacheManager.getCache("LedgerAccountBalance")!!
+
+    override suspend fun getDetailsByAccountIdForDate(accountId: UUID, date: LocalDate): AccountBalanceAnalyticsDTO {
+        val balances = balanceAnalyticsRepository.findAllByAccountIdForDate(accountId, date)
+        val currentBalance = getByAccountId(accountId)
+        return AccountBalanceAnalyticsDTO(
+            accountId = accountId,
+            date = date,
+            amount = currentBalance.amount.unscaleToBigDecimal(),
+            balances = balances.map { b ->
+                b.toDTO()
+            }.sorted().toArrayList(),
+        )
+    }
 
     override suspend fun getByAccountId(accountId: UUID): LedgerAccountBalance {
         return getOrPutCachedValue(BalanceLookupKey(accountId)) {

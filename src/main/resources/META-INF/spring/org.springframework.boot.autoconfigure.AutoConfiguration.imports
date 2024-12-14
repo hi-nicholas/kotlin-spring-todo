@@ -1,2 +1,4 @@
+com.humaninterest.kotlindemo.autoconfigure.AsyncAutoConfiguration
 com.humaninterest.kotlindemo.autoconfigure.CacheAutoConfiguration
 com.humaninterest.kotlindemo.autoconfigure.ValidatorFactoryHelperAutoConfiguration
+com.humaninterest.kotlindemo.autoconfigure.JdbcDataSourceAutoConfiguration

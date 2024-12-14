@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+    <!--
+    This configures spring to log in JSON format when the datadog profile is enabled.
+    This binds MDC key names to be sent to datadog context and converts stack
+    traces to be more readable in datadog.
+    -->
     <springProfile name="datadog">
         <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
             <encoder class="net.logstash.logback.encoder.LogstashEncoder">
@@ -30,9 +35,12 @@
             </encoder>
         </appender>
     </springProfile>
+
+    <!-- When the datadog profile isn't enable, it'll use regular spring console logging -->
     <springProfile name="!datadog">
         <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
     </springProfile>
+
     <root level="${logging.level.ROOT:info}">
         <appender-ref ref="CONSOLE" />
     </root>

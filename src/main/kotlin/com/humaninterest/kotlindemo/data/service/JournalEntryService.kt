@@ -5,6 +5,7 @@ import com.humaninterest.kotlindemo.api.response.JournalEntryAccountBalance
 import com.humaninterest.kotlindemo.api.response.PostedJournalEntryResponse
 import com.humaninterest.kotlindemo.data.conversion.BigDecimalScaler.scaleToLong
 import com.humaninterest.kotlindemo.data.conversion.BigDecimalScaler.unscaleToBigDecimal
+import com.humaninterest.kotlindemo.data.kafka.KafkaJournalEntryProducer
 import com.humaninterest.kotlindemo.data.model.BalanceType
 import com.humaninterest.kotlindemo.data.model.JournalEntry
 import com.humaninterest.kotlindemo.data.model.LedgerAccount
@@ -33,6 +34,7 @@ class JournalEntryServiceImpl(
     private val accountService: LedgerAccountService,
     private val balanceService: BalanceService,
     private val journalEntryRepository: JournalEntryRepository,
+    private val kafkaProducer: KafkaJournalEntryProducer,
 ) : JournalEntryService {
     private val logger = KotlinLogging.logger {}
 
@@ -84,6 +86,8 @@ class JournalEntryServiceImpl(
                     )
                 },
             )
+        }.also {
+            kafkaProducer.produce(it)
         }
     }
 
