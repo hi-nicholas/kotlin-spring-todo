@@ -1,10 +1,67 @@
-# Read Me First
+# Features
 
-The following was discovered as part of building this project:
+- Reactive (Non-Blocking) Rest API
+  + Journal Entry API
+  + Account Balance API
+  + Documented request and response model
+- Request Validation
+  + JSR validated Journal Entry requests
+  + Coded/Internationalized validation response messages (message.properties)
+  + Custom constraint validation utilizing persisted data lookups
+- JCache read-through cached data access
+- PostgreSQL database access
+  + R2DBC reactive database access
+  + JDBC synchronous database access
+  + Auto-configured Spring Data repositories
+  + Parameterized custom database queries
+- Versioned database migrations (Flyway)
+- Async background event consumers for balance analytics aggregation
+  + (Optional) Kafka topic event writing
+  + (Optional) Kafka async event consumer for balance aggregation
+  + (Default) In-memory async event consumer for balance aggregation
+- Production Ready Features
+  + Configuration through environment variables at runtime
+  + JSON formatted service logging for DataDog ingest
+  + Health-check endpoint (Spring Boot Actuator)
+  + JMX metric publication for DataDog collection
+  + Configurable service log levels (Logback)
+  + Configurable runtime profiles (`kafka`, `datadog`) enable profile specific features and configurations
+- CI/CD
+  + Configured GitHub actions pipeline (`.github/workflows/gradle.yml`)
+  + Gradle 8.11 (Gradle Wrapper)
+  + Static code analysis (Detekt), with publishable report
+  + Linting and formatting (KtLint), with publishable report
+  + Unit and Integration tests (JUnit), with publishable report
+  + Published dependency analysis, Dependabot integration
 
-* The JVM level was changed from '23' to '21' as the Kotlin version does not support Java 23 yet.
+# Requirements
+- Java 21
+- PostgreSQL
 
 # Getting Started
+
+A PostgresSQL database instance, with a user: `demo` and password `demo` with permission to create databases and schemas.
+If those are in place, no other configuration is necessary. Otherwise, review the table below:
+
+| Name                      | Description                                                      | Default     |
+|---------------------------|------------------------------------------------------------------|-------------|
+| `APP_DB_USERNAME`         | DB username                                                      | `demo`      |
+| `APP_DB_PASSWORD`         | DB password                                                      | `demo`      |
+| `APP_DB_HOST`             | DB hostname                                                      | `127.0.0.1` |
+| `APP_DB_PORT`             | DB port                                                          | `5432`      |
+| `APP_DB_DATABSE`          | DB database name                                                 | `demo`      |
+| `APP_DB_SCHEMA`           | DB schema name                                                   | `demo`      |
+| `KAFKA_BOOTSTRAP_SERVERS` | (optional) Kafka bootstrap servers if `kafka` profile is enabled |             |
+| `KAFKA_KEY`               | (optional) Kafka secret key `kafka` profile is enabled           |             |
+| `KAFKA_SECRET`            | (optional) Kafka secret `kafka` profile is enabled               |             |
+| `KAFKA_CLIENT_ID`         | (optional) Kafka client id `kafka` profile is enabled            |             |
+| `SPRING_PROFILES_ENABLED` | (optional) Comma separated string of profiles to enable          |             |
+
+Full configuration details can be view at `src/main/kotlin/resources/application.yml`
+
+### Available Profiles
+- `kafka` - Enables Kafka integration, requires all `KAFKA_*` environment variables to be set
+- `datadog` - Enables JSON logging format and MDC configurations
 
 ### Reference Documentation
 

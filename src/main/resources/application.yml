@@ -83,7 +83,7 @@ logging:
     org.springframework.kafka: warn
 ---
 spring.config.activate.on-profile: kafka
-client.id: ccloud-springboot-client-afc13e10-d1eb-4c8f-a9c5-b968ca603279
+client.id: ${KAFKA_CLIENT_ID:ccloud-springboot-client-afc13e10-d1eb-4c8f-a9c5-b968ca603279}
 spring:
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:pkc-n98pk.us-west-2.aws.confluent.cloud:9092}
