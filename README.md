@@ -34,11 +34,21 @@
   + Unit and Integration tests (JUnit), with publishable report
   + Published dependency analysis, Dependabot integration
 
-# Requirements
+# Getting Started
+
+## Nix-based Development Environment
+
+This project uses [devenv.sh](https://devenv.sh/) to manage the development environment. To build and run the project:
+
+1. Install the [hi-devenv development environment](https://docs.app-dev.inside.humaninterest.com/shared-functions/environment/nix/getting-started)
+2. Run `devenv up` in the project directory
+
+## Manual Environment Setup
+
+### Requirements
+
 - Java 21
 - PostgreSQL
-
-# Getting Started
 
 A PostgresSQL database instance, with a user: `demo` and password `demo` with permission to create databases and schemas.
 If those are in place, no other configuration is necessary. Otherwise, review the table below:
