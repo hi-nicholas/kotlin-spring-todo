@@ -13,7 +13,19 @@
     [ "APP_DB_SCHEMA" "demo" ]
   ]);
 
-  hi.package-info = [ pkgs.kotlin pkgs.postgresql pkgs.zulu ];
+  git-hooks.hooks.ktlint = {
+    enable = true;
+
+    entry = "ktlint --format";
+
+    fail_fast = true;
+
+    files = "^src/.*\\.kt$";
+
+    name = "ktlint formatting";
+  };
+
+  hi.package-info = [ pkgs.kotlin pkgs.ktlint pkgs.postgresql pkgs.zulu ];
 
   languages = {
     java = {
@@ -24,6 +36,8 @@
 
     kotlin.enable = true;
   };
+
+  packages = [ pkgs.ktlint ];
 
   scripts.get-name.exec =
     "./gradlew properties | grep '^name:' | sed 's/^name: //'";
